@@ -1,0 +1,13 @@
+.bground{
+    background-image:url(../../public/form-bg.jpg);
+    width: 100%;
+    height: 90vh;
+    border-radius: 50%;
+    color: rgba(0, 0, 0,0.3);
+}
+
+.background{
+    background-image: url(../../public/form-bg.jpg);
+    width: 30%;
+    height: 100%;
+}
