@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './style.css';
+import * as yup from "yup";
 
 export function UserRegister(){
 
@@ -18,6 +19,14 @@ export function UserRegister(){
             Email:'',
             Mobile:''
         },
+        validationSchema : yup.object({
+            UserId : yup.number().required('User Id Required'),
+            UserName : yup.string().required('User Name Required').min(4, "Name Too Short"),
+            Password : yup.string().required('Password Required').min(3, "Password Too Short"),
+            Email : yup.string().required('Email Required'),
+            Mobile : yup.string().required('Enter Mobile Number').matches(/\+91\d{10}/, "invalid mobile start with +91")
+        }),
+
         onSubmit : useCallback((user) => {
             axios.post(`http://127.0.0.1:5000/register-user`, user)
             .then(()=>{
@@ -49,14 +58,19 @@ export function UserRegister(){
                     <dt className="text-white">UserId</dt>
                     <dd><input type="text" onChange={formik.handleChange} name="UserId" onKeyUp={VerifyUser} /></dd>
                     <dd className={errorClass}>{status}</dd>
+                    <dd className="text-danger">{formik.errors.UserId}</dd>
                     <dt className="text-white">User Name</dt>
                     <dd><input type="text" onChange={formik.handleChange} name="UserName"/></dd>
+                    <dd className="text-danger">{formik.errors.UserName}</dd>
                     <dt className="text-white">Password</dt>
                     <dd><input type="password" onChange={formik.handleChange} name="Password" /></dd>
+                    <dd className="text-danger">{formik.errors.Password}</dd>
                     <dt className="text-white">Email</dt>
                     <dd><input type="email" onChange={formik.handleChange} name="Email"/></dd>
+                    <dd className="text-danger">{formik.errors.Email}</dd>
                     <dt className="text-white">Mobile</dt>
                     <dd><input type="text"  onChange={formik.handleChange} name="Mobile"/></dd>
+                    <dd className="text-danger">{formik.errors.Mobile}</dd>
                 </dl>
                 <button className="btn btn-primary">Register</button>
             </form>
